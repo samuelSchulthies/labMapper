@@ -28,63 +28,35 @@ def find_asset(asset_tag: str, headers: dict):
     print ("Hello world")
 
 def generateMap(asset):
-    if asset.room == "1139":
+    if asset.room == "1138":
         print1138(asset.station)
 
-def print1138(station):
+def print1138(assetStation):
+    preMap = [[10, 9, 8, 7, "  DOOR->"],
+             [None, None, None, None, None],
+             [None, None, 6, None, 1],
+             [None, None, 5, None, 2],
+             [11, None, 4, None, 3]]
+
+    print(Panel.fit(buildMap(preMap, assetStation), title="1138", border_style="white"))
+ 
+def renderStation(mapStation, assetStation):
+    if mapStation == assetStation:
+        return Panel.fit("[blink blue] X ", border_style="white")
+    elif mapStation == None:
+        return "   "
+    elif mapStation == "  DOOR->":
+        return mapStation
+    return Panel.fit("   ", border_style="white")
+
+def buildMap(preMap, assetStation):
     map = Table.grid(expand=False)
-    map.add_column()
-    map.add_column()
-    map.add_column()
-    map.add_column()
-    map.add_column()
-    map.add_row(
-        Panel.fit("   ", border_style="white"),
-        Panel.fit("   ", border_style="white"),
-        Panel.fit("   ", border_style="white"),
-        Panel.fit("   ", border_style="white"),
-        "  DOOR->"
-    )
-    map.add_row(
-        "   ",
-        "   ",
-        "   ",
-        "   "
-    )
-    map.add_row(
-        "   ",
-        "   ",
-        Panel.fit("   ", border_style="white"),
-        "   ",
-        Panel.fit("   ", border_style="white")
-    )
-    map.add_row(
-        "   ",
-        "   ",
-        Panel.fit("[blink blue] X ", border_style="white"),
-        "   ",
-        Panel.fit("   ", border_style="white")
-    )
- 
-    map.add_row(
-        Panel.fit("   ", border_style="white"),
-        "   ",
-        Panel.fit("   ", border_style="white"),
-        "   ",
-        Panel.fit("   ", border_style="white")
-    )
+    for _ in range(5):
+        map.add_column
+    for row in preMap:
+        map.add_row(*(renderStation(mapStation, assetStation) for mapStation in row))
 
-
-    print(Panel.fit(map, title="1138", border_style="white"))
- 
-
-
-def printStation(assetStation, mapStation):
-    if assetStation == mapStation:
-        print(Panel.fit("[blink blue] X ", border_style="white"))
-    else:
-        print(Panel.fit("[]   ", border_style="white"))
- 
+    return map
 
 
 class asset():
@@ -93,5 +65,13 @@ class asset():
         self.station = station
         self.tag = tag
 
+class mapStation():
+    def __init__(self, panel, station):
+        self.panel = panel
+        self.station = station
 
-print1138(1)
+    def __rich__(self):
+        return self.panel
+
+
+print1138(11)
