@@ -77,15 +77,15 @@ def findAsset():
     }
     assetToStation1102 = {
         "1002542" : 1,
-        "1002541" : 2,
-        "1017455" : 3,
+        "1002550" : 2,
+        "1002528" : 3,
         "1002528" : 4,
-        "1002536" : 5,
-        "1002554" : 6,
-        "1002525" : 7,
+        "1002554" : 5,
+        "1002525" : 6,
+        "1002558" : 7,
         "1002555" : 8,
         "1002526" : 9,
-        "1002532" : 10,
+        "1002511" : 10,
         "1002537" : 11,
         "1002527" : 12,
         "1002533" : 13
@@ -123,20 +123,26 @@ def findAsset():
     rooms = {
         1130 : assetToStation1130,
         1138 : assetToStation1138, 
-        1102 : assetToStation1102, 
+        1102 : assetToStation1102,
         1029 : assetToStation1029
     } 
     assetTag = sys.argv[1]
     station = 0
     room = 0
+    assetFound = False
+
     for roomNum, roomToStation in rooms.items():
         if assetTag in roomToStation:
             station = roomToStation[assetTag]
-            room = roomNum 
+            room = roomNum
+            assetFound = True
             break
-    assetDetails = asset(room, station, assetTag)
 
-    generateMap(assetDetails)
+    if not assetFound:
+        raise ValueError("Asset was not found")
+    else:
+        assetDetails = asset(room, station, assetTag)
+        generateMap(assetDetails)
 
 
 def generateMap(asset):
@@ -152,7 +158,8 @@ def generateMap(asset):
 
 
 def print1130(assetStation):
-    preMap = [[26, 27, None, 30, 31],
+    preMap = [[None, None, None, None, None],
+             [26, 27, None, 30, 31],
              [24, 25, None, 28, 29],
              [None, None, None, None, None],
              [20, 21, None, 22, 23],
@@ -187,7 +194,8 @@ def print1102(assetStation):
     print(Panel.fit(buildMap(preMap, assetStation), title="1102", border_style="white"))
 
 def print1029(assetStation):
-    preMap = [[1, 2, None, 3, 4],
+    preMap = [[None, None, None, None, None],
+             [1, 2, None, 3, 4],
              [None, None, None, None, None],
              [5, 6, None, 7, 8],
              [None, None, None, None, None],
@@ -210,7 +218,7 @@ def print1029(assetStation):
  
 def renderStation(mapStation, assetStation):
     if mapStation == assetStation:
-        return Panel.fit("[blink blue] X ", border_style="white")
+        return Panel.fit("[blink green]   ", border_style="blink green")
     elif mapStation == None:
         return "   "
     elif mapStation == "  DOOR->" or mapStation == "<-DOOR  " or mapStation == "DOOR ^":
