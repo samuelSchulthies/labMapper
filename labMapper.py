@@ -13,7 +13,10 @@ from rich import print
 from rich.panel import Panel
 from rich.table import Table
 from rich.console import Console
+import typer
+from typing_extensions import Annotated
 import sys
+
 
 # # # # # # Constants # # # # # #
 BASE_URL = "https://inventory.cs.byu.edu/api/v1"  # Production Snipe-IT Server
@@ -28,9 +31,15 @@ FIELDNAMES = ("Asset Tag Number", "Station", "Location")
 #     :return: True if successful
 #     """
 #     print ("Hello world")
-def findAsset():
+
+app = typer.Typer()
+
+@app.command()
+def findAsset(asset_to_find: Annotated[str, typer.Argument(help="asset tag or pretty host name")]):
+    """Provides a highlighted map to an asset in 1130, 1138, 1102, and 1029"""
     assetToStation1130 = {
         "1031635" : 1,
+        "waternoose" : 1,
         "1017524" : 2,
         "1017452" : 3,
         "1017461" : 4,
@@ -73,6 +82,7 @@ def findAsset():
         "1017529" : 8,
         "1002535" : 9,
         "1031634" : 10,
+        "randall" : 10,
         "1017534" : 11
     }
     assetToStation1102 = {
@@ -92,33 +102,60 @@ def findAsset():
     }
     assetToStation1029 = {
         "293788" : 1,
+        "fox" : 1,
         "293789" : 2,
+        "samus" : 2,
         "293787" : 3,
+        "ness" : 3,
         "293786" : 4,
+        "captfalcon" : 4,
         "293792" : 5,
+        "isabelle" : 5,
         "293793" : 6,
+        "tomnook" : 6,
         "293790" : 7,
+        "kkslider" : 7,
         "293791" : 8,
+        "mrresetti" : 8,
         "293795" : 9,
+        "dedede" : 9,
         "293798" : 10,
+        "waddledee" : 10,
         "293799" : 11,
+        "metaknight" : 11,
         "293794" : 12,
+        "kirby" : 12,
         "293796" : 13,
+        "oatchi" : 13,
         "293797" : 14,
+        "pikmin" : 14,
         "293807" : 15,
+        "zelda" : 15,
         "293806" : 16,
+        "link" : 16,
         "293801" : 17,
+        "olimar" : 17,
         "293800" : 18,
+        "louie" :18,
         "293802" : 19,
+        "beedle" : 19,
         "293803" : 20,
+        "epona" : 20,
         "293804" : 21,
+        "impa" : 21,
         "293805" : 22,
+        "ganon" : 22,
         "293808" : 23,
+        "yoshi" : 23,
         "293809" : 24,
+        "toad" : 24,
         "293813" : 25,
+        "luigi" : 25,
         "293812" : 26,
+        "mario" : 26,
         "1017526" : 27,
-        "293810" : 28
+        "293810" : 28,
+        "peach" : 28
     }
     rooms = {
         1130 : assetToStation1130,
@@ -126,14 +163,14 @@ def findAsset():
         1102 : assetToStation1102,
         1029 : assetToStation1029
     } 
-    assetTag = sys.argv[1]
+#    asset_to_find = sys.argv[1]
     station = 0
     room = 0
     assetFound = False
 
     for roomNum, roomToStation in rooms.items():
-        if assetTag in roomToStation:
-            station = roomToStation[assetTag]
+        if asset_to_find in roomToStation:
+            station = roomToStation[asset_to_find]
             room = roomNum
             assetFound = True
             break
@@ -141,7 +178,7 @@ def findAsset():
     if not assetFound:
         raise ValueError("Asset was not found")
     else:
-        assetDetails = asset(room, station, assetTag)
+        assetDetails = asset(room, station, asset_to_find)
         generateMap(assetDetails)
 
 
@@ -249,4 +286,6 @@ class mapStation():
     def __rich__(self):
         return self.panel
 
-findAsset()
+# findAsset()
+if __name__ == "__main__":
+    app()
