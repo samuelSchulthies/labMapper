@@ -157,11 +157,37 @@ def findAsset(asset_to_find: Annotated[str, typer.Argument(help="asset tag or pr
         "293810" : 28,
         "peach" : 28
     }
+    assetToStation2255 = {
+        "maleficent" : "next to main door 255",
+        "286979" : "next to main door 2255",
+        "ursula" : "next to main door 2255",
+        "286981" : "next to main door 2255",
+        "1002523" : "at desk between thermostat and epson printer 2255",
+        "1002548" : "at desk between thermostat and epson printer 2255",
+        "cruella" : "east wall in back of 2255",
+        "286983" : "east wall in back of 2255",
+        "scar" : "east wall in back of 2255",
+        "286980" : "east wall in back of 2255",
+        "hook" : "east wall in back of 2255",
+        "286978" : "east wall in back of 2255",
+        "hades" : "east wall in back of 2255",
+        "286972" : "east wall in back of 2255",
+        "1002551" : "east wall in back of 2255",
+        "1002545" : "east wall in back of 2255",
+        "1002534" : "east wall in back of 2255",
+        "1002540" : "east wall in back of 2255",
+        "1002547" : "east wall in back of 2255",
+        "1002549" : "east wall in back of 2255",
+        "cs-teamcity1" : "east wall in back of 2255",
+        "1002551" : "east wall in back of 2255",
+        "1002531" : "east wall in back of 2255"
+    }
     rooms = {
         1130 : assetToStation1130,
         1138 : assetToStation1138, 
         1102 : assetToStation1102,
-        1029 : assetToStation1029
+        1029 : assetToStation1029,
+        2255 : assetToStation2255
     } 
 #    asset_to_find = sys.argv[1]
     station = 0
@@ -191,6 +217,8 @@ def generateMap(asset):
         print1102(asset.station)
     if asset.room == 1029:
         print1029(asset.station)
+    if asset.room == 2255:
+        print(asset.station)
 
 
 
@@ -249,8 +277,6 @@ def print1029(assetStation):
              [25, 26, None, 27, 28]]
 
     print(Panel.fit(buildMap(preMap, assetStation), title="1029", border_style="white"))
- 
- 
  
  
 def renderStation(mapStation, assetStation):
