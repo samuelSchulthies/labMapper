@@ -1,10 +1,9 @@
-#! /usr/bin/env pythonj
+#! /usr/bin/env python
 """
     Author: Samuel Schulthies
     Contributors:
-    Last updated: 2026-01-29
+    Last updated: 2026-11-19
 
-    This is a tool in development for using Snipe-IT's API to create an inventory mapping tool.
 """
 
 # import exceptions
@@ -16,21 +15,6 @@ from rich.console import Console
 import typer
 from typing_extensions import Annotated
 import sys
-
-
-# # # # # # Constants # # # # # #
-BASE_URL = "https://inventory.cs.byu.edu/api/v1"  # Production Snipe-IT Server
-FIELDNAMES = ("Asset Tag Number", "Station", "Location")
-
-# def find_asset(asset_tag: str, headers: dict):
-#     """
-#     Create a map with desired asset highlighted
-
-#     :param headers: HTTP headers for making the API calls
-#     :param asset_tag: the asset tag number of the asset you are looking for
-#     :return: True if successful
-#     """
-#     print ("Hello world")
 
 app = typer.Typer()
 
@@ -89,16 +73,21 @@ def findAsset(asset_to_find: Annotated[str, typer.Argument(help="asset tag or pr
         "1002542" : 1,
         "1002550" : 2,
         "1002528" : 3,
-        "1002528" : 4,
-        "1002554" : 5,
-        "1002525" : 6,
+        "1002536" : 4,
+        "" : 5,
+        "" : 6,
         "1002558" : 7,
         "1002555" : 8,
         "1002526" : 9,
         "1002511" : 10,
         "1002537" : 11,
         "1002527" : 12,
-        "1002533" : 13
+        "" : 13
+    }
+    assetToStation1110 = {
+        "1017536" : "front of theater",
+        "yzma" : "back of theater",
+        "292642" : "back of theater"
     }
     assetToStation1029 = {
         "293788" : 1,
@@ -172,24 +161,24 @@ def findAsset(asset_to_find: Annotated[str, typer.Argument(help="asset tag or pr
         "286978" : "east wall in back of 2255",
         "hades" : "east wall in back of 2255",
         "286972" : "east wall in back of 2255",
-        "1002551" : "east wall in back of 2255",
-        "1002545" : "east wall in back of 2255",
-        "1002534" : "east wall in back of 2255",
-        "1002540" : "east wall in back of 2255",
-        "1002547" : "east wall in back of 2255",
+        "1002531" : "east wall in back of 2255",
         "1002549" : "east wall in back of 2255",
+        "1002547" : "east wall in back of 2255",
+        "1002540" : "east wall in back of 2255",
+        "1002534" : "east wall in back of 2255",
+        "1002545" : "east wall in back of 2255",
         "cs-teamcity1" : "east wall in back of 2255",
         "1002551" : "east wall in back of 2255",
-        "1002531" : "east wall in back of 2255"
+        "1002524" : "east wall in back of 2255"
     }
     rooms = {
         1130 : assetToStation1130,
-        1138 : assetToStation1138, 
+        1138 : assetToStation1138,
+        1110 : assetToStation1110,
         1102 : assetToStation1102,
         1029 : assetToStation1029,
         2255 : assetToStation2255
     } 
-#    asset_to_find = sys.argv[1]
     station = 0
     room = 0
     assetFound = False
@@ -219,7 +208,8 @@ def generateMap(asset):
         print1029(asset.station)
     if asset.room == 2255:
         print(asset.station)
-
+    if asset.room == 1110:
+        print(asset.station)
 
 
 def print1130(assetStation):
