@@ -182,6 +182,10 @@ def findAsset(asset_to_find: Annotated[str, typer.Argument(help="asset tag or pr
     station = 0
     room = 0
     assetFound = False
+    
+    # removes cs- if the user enters that
+    if asset_to_find.startswith("cs-"):
+        asset_to_find = asset_to_find[3:]
 
     for roomNum, roomToStation in rooms.items():
         if asset_to_find in roomToStation:
