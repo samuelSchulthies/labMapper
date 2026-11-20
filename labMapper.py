@@ -64,7 +64,7 @@ def findAsset(asset_to_find: Annotated[str, typer.Argument(help="asset tag or pr
         "1017519" : 6,
         "1017535" : 7,
         "1017529" : 8,
-        "1002535" : 9,
+        "" : 9,
         "1031634" : 10,
         "randall" : 10,
         "1017534" : 11
