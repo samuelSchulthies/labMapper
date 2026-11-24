@@ -260,7 +260,7 @@ def print1029(assetStation):
              [None, None, None, None, None],
              [9, 10, None, 11, 12],
              [None, None, None, None, None],
-             ["<-DOOR  ", None, None, 13, 14],
+             ["<-DOOR ", None, None, 13, 14],
              [None, None, None, None, None],
              [None, None, None, 17, 18],
              [None, None, None, None, None],
@@ -278,7 +278,7 @@ def renderStation(mapStation, assetStation):
         return Panel.fit("[blink green]   ", border_style="blink green")
     elif mapStation == None:
         return "   "
-    elif mapStation == "  DOOR->" or mapStation == "<-DOOR  " or mapStation == "DOOR ^":
+    elif mapStation == "  DOOR->" or mapStation == "<-DOOR " or mapStation == "DOOR ^":
         return mapStation
     return Panel.fit("   ", border_style="white")
 
